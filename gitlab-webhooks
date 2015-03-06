@@ -1,0 +1,40 @@
+#! /bin/bash
+#
+# init script for gitlab-webhooks
+#
+# description: gitlab webhooks receiver
+#
+# File : gitlab-webhooks
+
+. /lib/lsb/init-functions
+
+DAEMON_USER="brunosilva"
+DAEMON_NAME=gitlab-webhooks
+DAEMON="/home/$DAEMON_USER/gitlab-webhooks/receiver.py"
+PIDFILE="/var/run/$DAEMON_NAME.pid"
+DAEMON_OPTS="--config=/home/$DAEMON_USER/gitlab-webhooks/config.yaml"
+
+case "$1" in
+start)	log_daemon_msg "Starting GitLab Web Hooks" "gitlab-webhooks"
+        start-stop-daemon --start --background --pidfile $PIDFILE --make-pidfile --user $DAEMON_USER --chuid $DAEMON_USER --startas $DAEMON -- $DAEMON_OPTS
+        log_end_msg $?
+	;;
+stop)	log_daemon_msg "Stopping GitLab Web Hooks" "gitlab-webhooks"
+        start-stop-daemon --stop --pidfile $PIDFILE --retry 10
+        RETVAL=$?
+        [ $RETVAL -eq 0 ] && [ -e "$PIDFILE" ] && rm -f $PIDFILE
+        log_end_msg $RETVAL
+        ;;
+restart) log_daemon_msg "Restarting GitLab Web Hooks" "gitlab-webhooks"
+        $0 stop
+        $0 start
+        ;;
+status)
+        status_of_proc "$DAEMON_NAME" "$DAEMON" && exit 0 || exit $?
+        ;;
+*)	log_action_msg "Usage: /etc/init.d/gitlab-webhooks {start|stop|status|restart}"
+
+        exit 2
+        ;;
+esac
+exit 0

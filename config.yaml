@@ -1,0 +1,17 @@
+hooks:
+    - 
+        name: 'Project Name'
+        repository: project
+        branch: develop
+        directory: /repository/folder
+        script: scripts/laravel.frontend.sh
+        env:
+            LARAVEL_ENV: design
+            DEPLOY_KEY: ~/.ssh/deploy_rsa
+
+logs:
+        file: /tmp/webhook.log
+        max_size: 25165824 # 24 Mb
+        level: DEBUG
+
+      
