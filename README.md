@@ -1,6 +1,6 @@
 # gitlab-webhooks
 
-Daemon uses to execute shell script upon gitlab repository push event.
+Daemon uses to execute shell script upon [Git Lab](https://about.gitlab.com/) repository repository push event, via [Web Hooks](https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/web_hooks/web_hooks.md).
 
 Use `config.yaml` to configure daemon to execute a shell script when a branch of a given repository is updated.
 
